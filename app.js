@@ -704,6 +704,21 @@
   });
 
   /* ---------- Arranque ---------- */
+  [modalEl, modalDiaEl].forEach(m => {
+  m.addEventListener('hide.bs.modal', () => {
+    if (m.contains(document.activeElement)) document.activeElement.blur();
+  });
+});
+
+modalEl.addEventListener('hidden.bs.modal', () => {
+  const editar = editandoId && lista.querySelector(`button[data-accion="editar"][data-id="${editandoId}"]`);
+  (editar || $('btnNuevo')).focus();
+});
+
+modalDiaEl.addEventListener('hidden.bs.modal', () => {
+  const dia = diaEditando && $('cal').querySelector(`button[data-fecha="${diaEditando}"]`);
+  if (dia) dia.focus();
+});
   render();
   mostrarVista(location.hash.replace('#', ''));
 })();
