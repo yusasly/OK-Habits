@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="es" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="OK Habits: registra tus hábitos diarios, sigue tu racha y revisa tu calendario.">
+  <title>OK Habits</title>
+  <link rel="icon" href="data:,">
+  <!-- Bootstrap 5 (CDN oficial) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons (CDN oficial, solo fuente de íconos) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+<body class="bg-body-tertiary">
+
+  <!-- HEADER -->
+  <header>
+    <nav id="barra" class="navbar sticky-top bg-body shadow-sm" aria-label="Principal">
+      <div class="container">
+        <a class="navbar-brand mx-2 fw-bold fs-4 text-success-emphasis d-flex align-items-center gap-2 mb-0" href="#habitos" data-ir="habitos">
+          <i class="bi bi-check-circle-fill text-success" aria-hidden="true"></i>
+          <span>OK Habits</span>
+        </a>
+        <button class="navbar-toggler mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu" aria-controls="menu" aria-label="Abrir menú">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="container py-4">
+    <div class="row">
+      <div class="col-12 col-lg-10 col-xl-8 mx-auto">
+        <div class="mx-2">
+
+          <!-- Único h1: explica la página inicial "Hábitos" -->
+          <div class="mx-1 mb-4">
+            <h1 id="titulo" class="display-6 fw-bold text-success-emphasis mb-1" tabindex="-1">Empieza con un hábito</h1>
+            <p id="subtitulo" class="lead text-secondary-emphasis mb-0">Marca cada hábito cuando lo completes hoy.</p>
+          </div>
+
+          <!-- VISTA: HÁBITOS (Lista de hábitos) -->
+          <section id="vista-habitos" data-vista="habitos" aria-label="Hábitos">
+            <div class="row align-items-center g-2 mb-3">
+              <div class="col">
+                <h2 class="h3 fw-bold mb-0">Mis hábitos</h2>
+                <p id="resumen" class="mb-0 text-secondary-emphasis"></p>
+              </div>
+              <div class="col-auto">
+                <button type="button" id="btnNuevo" class="btn btn-link p-0 lh-1 text-success-emphasis" aria-label="Agregar hábito">
+                  <i class="bi bi-plus-circle-fill fs-1" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+
+            <div id="lista" class="row g-3 mb-3"></div>
+
+            <div id="vacio" class="alert alert-info border-warning-subtle bg-warning-subtle text-secondary-emphasis fw-bold mx-1 rounded-4 d-none" role="status">
+              Aún no tienes hábitos. Toca el botón + para crear el primero.
+            </div>
+
+            <!-- Tarjetas Racha y Calendario -->
+            <div class="row justify-content-center mt-4">
+              <div class="col-5 mx-2">
+                <div class="card h-100 border-2 border-danger shadow-sm rounded-4 text-center">
+                  <div class="card-body d-flex flex-column align-items-center justify-content-center px-2">
+                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23fd7e14' d='M32 4c2 10 14 16 14 32a14 14 0 0 1-28 0c0-8 4-12 8-16 0 6 3 8 5 8-3-9-1-18 1-24z'/><path fill='%23ffc107' d='M32 30c1 6 8 9 8 17a8 8 0 0 1-16 0c0-5 3-7 5-9 0 3 1 4 3 4-1-5-1-8 0-12z'/></svg>"
+                         alt="Racha activa" width="56" height="56" class="mb-2">
+                    <h2 class="h6 fw-bold mb-1">Racha</h2>
+                    <p class="fs-2 fw-bold text-danger-emphasis mb-0"><span id="rachaHome">0</span> <span id="unidadHome" class="fs-6 fw-normal">días</span></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-5 mx-2">
+                <div class="card h-100 border-2 border-success shadow-sm rounded-4 text-center">
+                  <div class="card-body d-flex flex-column align-items-center justify-content-center px-2">
+                    <i class="bi bi-calendar3 fs-1 text-success-emphasis mb-2" aria-hidden="true"></i>
+                    <h2 class="h6 fw-bold mb-1">Calendario</h2>
+                    <p id="mesHome" class="text-capitalize text-secondary-emphasis text-break mb-2"></p>
+                    <button type="button" class="btn btn-success btn-sm" data-ir="calendario">Ver calendario</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- VISTA: RACHA -->
+          <section id="vista-racha" data-vista="racha" class="d-none" aria-label="Racha">
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 text-center mx-1">
+                  <div class="card-body py-4">
+                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23fd7e14' d='M32 4c2 10 14 16 14 32a14 14 0 0 1-28 0c0-8 4-12 8-16 0 6 3 8 5 8-3-9-1-18 1-24z'/><path fill='%23ffc107' d='M32 30c1 6 8 9 8 17a8 8 0 0 1-16 0c0-5 3-7 5-9 0 3 1 4 3 4-1-5-1-8 0-12z'/></svg>"
+                         alt="Racha activa" width="72" height="72" class="mb-2">
+                    <h2 class="h5 fw-bold">Racha actual</h2>
+                    <p class="display-3 fw-bold text-success-emphasis mb-0" id="rachaNum">0</p>
+                    <p id="rachaUnidad" class="text-secondary-emphasis">días</p>
+                    <p class="mb-0 text-secondary-emphasis">Mejor racha: <strong id="mejorNum">0</strong></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 mx-1">
+                  <div class="card-body">
+                    <h2 class="h5 fw-bold mb-3">Por hábito</h2>
+                    <ul id="listaRacha" class="list-group list-group-flush mb-3"></ul>
+                    <p class="small text-secondary-emphasis mb-0">La racha general cuenta los días seguidos en los que completaste al menos un hábito.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- VISTA: CALENDARIO (interactivo) -->
+          <section id="vista-calendario" data-vista="calendario" class="d-none" aria-label="Calendario">
+            <div class="row">
+              <div class="col-12">
+                <div class="card border-0 shadow-sm rounded-4 mx-1">
+                  <div class="card-body">
+                    <div class="row align-items-center g-2 mb-3">
+                      <div class="col-auto">
+                        <button type="button" id="mesAnterior" class="btn bg-body-secondary text-primary-emphasis rounded-circle lh-1 p-2" aria-label="Mes anterior">
+                          <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      <div class="col text-center">
+                        <h2 id="mesTitulo" class="h5 fw-bold text-capitalize mb-0"></h2>
+                      </div>
+                      <div class="col-auto">
+                        <button type="button" id="mesSiguiente" class="btn bg-body-secondary text-primary-emphasis rounded-circle lh-1 p-2" aria-label="Mes siguiente">
+                          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div id="cal"></div>
+                    <p class="mt-3 mb-2 text-secondary-emphasis">Toca un día para marcar o desmarcar tus hábitos. Los días futuros no se pueden editar.</p>
+                    <p class="small mb-0 text-secondary-emphasis">
+                      <span class="badge text-bg-success">Verde</span> todos completados ·
+                      <span class="badge bg-success-subtle text-success-emphasis">Claro</span> algunos ·
+                      <span class="badge bg-body-secondary text-body border border-primary border-2">Borde</span> hoy
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- VISTA: CONFIGURACIÓN -->
+          <section id="vista-config" data-vista="config" class="d-none" aria-label="Configuración">
+            <div class="row g-3">
+
+              <div class="col-12 col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 mx-1">
+                  <div class="card-body">
+                    <h2 class="h5 fw-bold"><i class="bi bi-circle-half me-2" aria-hidden="true"></i>Tema</h2>
+                    <label for="selTema" class="form-label">Apariencia</label>
+                    <select id="selTema" class="form-select">
+                      <option value="light">Light</option>
+                      <option value="dark">Dark</option>
+                      <option value="auto">Auto</option>
+                    </select>
+                    <p class="form-text text-secondary-emphasis mt-2 mb-0">Auto sigue el tema de tu dispositivo.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 mx-1">
+                  <div class="card-body">
+                    <h2 class="h5 fw-bold"><i class="bi bi-eye me-2" aria-hidden="true"></i>Miopía y baja visión</h2>
+                    <label for="selTamano" class="form-label">Tamaño del texto</label>
+                    <select id="selTamano" class="form-select mb-3">
+                      <option value="100">Normal</option>
+                      <option value="125">Grande</option>
+                      <option value="150">Muy grande</option>
+                      <option value="175">Extra grande</option>
+                    </select>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" role="switch" id="swContraste">
+                      <label class="form-check-label" for="swContraste">Alto contraste</label>
+                    </div>
+                    <p class="form-text text-secondary-emphasis mt-2 mb-0">Texto y bordes en blanco o negro puro, con letra más gruesa.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 mx-1">
+                  <div class="card-body">
+                    <h2 class="h5 fw-bold"><i class="bi bi-fonts me-2" aria-hidden="true"></i>Dislexia</h2>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input " type="checkbox" role="switch" id="swDislexia">
+                      <label class="form-check-label" for="swDislexia">Modo dislexia</label>
+                    </div>
+                    <p class="form-text text-secondary-emphasis mt-2 mb-0">Usa una fuente de lectura más clara (OpenDyslexic si la tienes instalada; si no, Verdana o Comic Sans) y aumenta el espacio entre letras, palabras y líneas.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 mx-1">
+                  <div class="card-body">
+                    <h2 class="h5 fw-bold"><i class="bi bi-arrow-down-up me-2" aria-hidden="true"></i>Copia de seguridad</h2>
+                    <button type="button" id="btnExportar" class="btn btn-primary w-100 mb-3">
+                      <i class="bi bi-download me-2" aria-hidden="true"></i>Exportar datos (JSON)
+                    </button>
+                    <label for="archivoImport" class="form-label">Importar archivo JSON</label>
+                    <input id="archivoImport" type="file" class="form-control" accept="application/json,.json">
+                    <div id="avisoDatos" class="d-none mt-3" role="status"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="card border-0 shadow-sm rounded-4 mx-1">
+                  <div class="card-body">
+                    <h2 class="h5 fw-bold">Datos de la aplicación</h2>
+                    <p class="text-secondary-emphasis">Tus hábitos y tu historial se guardan solo en este navegador. Al restablecer, se borra todo el historial y vuelve el hábito inicial “Tomar agua”.</p>
+                    <button type="button" id="btnReset" class="btn border border-danger text-danger-emphasis">Restablecer aplicación</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="container pb-4">
+    <div class="row">
+      <div class="col-12">
+        <p class="mx-2 mb-0 text-center small text-secondary-emphasis">
+          <a class="link-body-emphasis" href="https://www.flaticon.es/iconos-gratis/fuego" title="fuego iconos">Icons creados por Magnific - Flaticon</a>
+          · Íconos: <a class="link-body-emphasis" href="https://icons.getbootstrap.com/">Bootstrap Icons</a> · OK Habits v1.0.0
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ASIDE TRASLÚCIDO (offcanvas) -->
+  <aside class="offcanvas offcanvas-end bg-dark text-white" data-bs-theme="dark" tabindex="-1" id="menu" aria-labelledby="menuTitulo">
+    <div class="offcanvas-header">
+      <h2 class="offcanvas-title h5" id="menuTitulo">Menú</h2>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Cerrar menú"></button>
+    </div>
+    <div class="offcanvas-body">
+      <nav aria-label="Secciones">
+        <ul class="nav nav-pills flex-column gap-2">
+          <li class="nav-item"><a class="nav-link text-white active" href="#habitos" data-ir="habitos" aria-current="page"><i class="bi bi-check2-square me-2" aria-hidden="true"></i>Hábitos</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="#racha" data-ir="racha"><i class="bi bi-fire me-2" aria-hidden="true"></i>Racha</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="#calendario" data-ir="calendario"><i class="bi bi-calendar3 me-2" aria-hidden="true"></i>Calendario</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="#config" data-ir="config"><i class="bi bi-gear me-2" aria-hidden="true"></i>Configuración</a></li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- MODAL: NUEVO / EDITAR HÁBITO -->
+  <div class="modal fade" id="modalHabito" tabindex="-1" aria-labelledby="modalTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content border-0 rounded-4">
+        <div class="modal-header border-0">
+          <h2 class="modal-title h5 fw-bold" id="modalTitulo">Nuevo hábito</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formHabito" novalidate>
+            <div class="row g-3">
+              <div class="col-12">
+                <button type="button" id="btnIcono" class="btn bg-body-secondary text-body border w-100 d-flex align-items-center justify-content-between collapsed"
+                        data-bs-toggle="collapse" data-bs-target="#panelIconos" aria-expanded="false" aria-controls="panelIconos">
+                  <span><i id="iconoPrev" class="bi bi-emoji-smile me-2" aria-hidden="true"></i>Seleccionar ícono</span>
+                  <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                </button>
+                <div class="collapse mt-2" id="panelIconos">
+                  <div class="row row-cols-4 row-cols-md-6 g-2" id="gridIconos"></div>
+                </div>
+                <p id="errIcono" class="text-danger-emphasis small mt-2 mb-0 d-none" role="alert">Selecciona un ícono para tu hábito.</p>
+              </div>
+              <div class="col-12">
+                <p id="lblColor" class="fw-semibold small mb-2">Color del hábito</p>
+                <div id="gridColores" class="d-flex flex-wrap gap-2" role="group" aria-labelledby="lblColor"></div>
+              </div>
+              <div class="col-12">
+                <label for="nombreHabito" class="visually-hidden">Nombre del hábito</label>
+                <textarea id="nombreHabito" class="form-control" rows="2" maxlength="60" required placeholder="Nombra tu hábito"></textarea>
+                <div id="fbNombre" class="invalid-feedback"></div>
+              </div>
+              <div class="col-12 d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">Guardar hábito</button>
+                <button type="button" id="btnEliminar" class="btn border border-danger text-danger-emphasis d-none">Eliminar hábito</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: EDITAR UN DÍA DEL CALENDARIO -->
+  <div class="modal fade" id="modalDia" tabindex="-1" aria-labelledby="modalDiaTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content border-0 rounded-4">
+        <div class="modal-header border-0">
+          <div>
+            <h2 class="modal-title h5 fw-bold" id="modalDiaTitulo"></h2>
+            <p id="resumenDia" class="small mb-0 text-secondary-emphasis"></p>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body pt-0">
+          <ul id="listaDia" class="list-group list-group-flush"></ul>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Listo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="estado" class="visually-hidden" role="status" aria-live="polite"></div>
+
+    <!-- Scripts: Bootstrap JS Bundle (CDN oficial) y la lógica de la app (archivo aparte). defer respeta el orden. -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+  <script src="app.js" defer></script>
+
+</body>
+</html>
